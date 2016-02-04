@@ -18,6 +18,7 @@
 \RequirePackage[scaled]{helvet}
 \RequirePackage{graphicx}
 \RequirePackage{xspace}
+\RequirePackage{etoolbox}
 
 \setlength{\unitlength}{1mm}
 \newlength{\rand}
@@ -50,12 +51,14 @@
 		\put(93,74){\includegraphics[width=30mm]{\pathtologo}}
 		\put(-0.5,32){\ifnum\thedeko>0\color{TUred}\rule{\rand}{32mm}\fi}
 		\put(5,32){\ifnum\thedeko>0\includegraphics[height=32mm,width=118mm]{\FileName}\fi}
-		\put(5,20){\parbox[b]{112mm}{\usebeamerfont{title}\usebeamercolor[fg]{titlelike}{\fontsize{12}{14}\selectfont\MakeUppercase\inserttitle}}}
-		\put(5,13){\color{grau}\fontsize{8pt}{8pt}\selectfont\insertauthor~|~\insertinstitute~|~\insertsubtitle}
+		\put(5,20){\parbox[b]{112mm}{\usebeamerfont{title}\usebeamercolor[fg]{titlelike}{\fontsize{12}{14}\selectfont\inserttitle}}}
+		\put(5,13){\color{grau}\fontsize{8pt}{8pt}\selectfont\insertauthor%
+			\ifdefempty{\insertinstitute}{}{~|~\insertinstitute}%
+			\ifdefempty{\insertsubtitle}{}{~|~\insertsubtitle}}
 		%\put(5,7){\color{grau}\rule{118mm}{0.5pt}}
 		\put(5,9){\ifx\pathtomylogo\leer{}\else{\color{grau}{\rule{118mm}{0.5pt}}}\fi}
-  \put(5,7.5){\ifx\pathtomylogo\leer{\color{grau}{\rule{118mm}{0.5pt}}}\fi}
-	\put(123,2){\ifx\pathtomylogo\leer\else{\makebox[0mm][r]{\includegraphics[height=6mm]{\pathtomylogo}}}\fi}
+		\put(5,7.5){\ifx\pathtomylogo\leer{\color{grau}{\rule{118mm}{0.5pt}}}\fi}
+		\put(123,2){\ifx\pathtomylogo\leer\else{\makebox[0mm][r]{\includegraphics[height=6mm]{\pathtomylogo}}}\fi}
 	\end{picture}}
 
 \setbeamertemplate{headline}{%
@@ -77,7 +80,10 @@
 	\begin{picture}(100,10)
 	\put(5,9){\ifx\pathtomylogo\leer{}\else{\rule{118mm}{0.5pt}}\fi}
   \put(5,7.5){\ifx\pathtomylogo\leer{\rule{118mm}{0.5pt}}\fi}
-	\put(5,2){\parbox[b]{95mm}{\fontsize{5pt}{6pt}\selectfont\textbf{\inserttitle}~|~\insertauthor~|~\insertsubtitle\par\vspace{1pt}Seite \insertframenumber\par}}
+	\put(5,2){\parbox[b]{95mm}{\fontsize{5pt}{6pt}\selectfont%
+		\textbf{\inserttitle}~|~\insertauthor%
+		\ifdefempty{\insertsubtitle}{}{~|~\insertsubtitle}\par%
+		\vspace{1pt}Seite \insertframenumber\par}}
 	\put(123,2){\ifx\pathtomylogo\leer\else{\makebox[0mm][r]{\includegraphics[height=6mm]{\pathtomylogo}}}\fi}
 	\end{picture}}
 
