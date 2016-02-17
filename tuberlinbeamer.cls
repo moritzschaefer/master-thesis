@@ -63,19 +63,29 @@
 	\end{picture}}
 
 \setbeamertemplate{headline}{%
-		\begin{picture}(100,15)
-			\put(-0.5,0){\ifnum\thedeko>0\color{TUred}\rule{\rand}{10mm}\fi}
-			\put(5,0){\ifnum\thedeko>0\includegraphics[height=10mm,width=94mm]{\FileName_head}\fi}
-			\put(104,0){\ifnum\thedeko>-1\includegraphics[width=19mm]{\pathtologo}\fi}
+		\begin{picture}(100,16)
+			\put(-0.5,1){\ifnum\thedeko>0\color{TUred}\rule{\rand}{10mm}\fi}
+			\put(5,1){\ifnum\thedeko>0\includegraphics[height=10mm,width=94mm]{\FileName_head}\fi}
+			\put(104,1){\ifnum\thedeko>-1\includegraphics[width=19mm]{\pathtologo}\fi}
 		\end{picture}}
 
 \setbeamertemplate{frametitle}{%
-	\ifnum\thedeko<0\vspace{-11mm}\fi
-	\ifnum\thedeko>0%
-  \vspace{2mm}\insertframetitle\vphantom{(Ag)}%
-  \else%
-  \vspace{-1mm}\insertframetitle\vphantom{(Ag)}%
-  \fi\vspace{-2mm}}
+	\ifnum\thedeko<0
+		\vspace{-12.5mm}
+		\insertframetitle
+	\fi
+	\ifnum\thedeko=0
+		\vspace{-6mm}
+		\begin{picture}(0,0)
+			\put(0,0){\parbox[b][10mm][b]{94mm}{\raggedright\insertframetitle\vphantom{Ag}}}
+		\end{picture}
+	\fi
+	\ifnum\thedeko>0
+		\insertframetitle
+	\fi
+\vspace{-2mm}
+}
+
 
 \setbeamertemplate{footline}{%
 	\begin{picture}(100,10)
