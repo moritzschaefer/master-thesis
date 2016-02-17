@@ -2,7 +2,6 @@
 % In dieser Datei fehlen noch ein paar erklaerende Kommentare
 %
 \ProvidesClass{tuberlinbeamer}
-\PassOptionsToPackage{ngerman}{babel}
 \newcounter{deko}
 \setcounter{deko}{0}
 \DeclareOption{Nike}{\def\FileName{Nike}\setcounter{deko}{1}}
@@ -13,8 +12,7 @@
 \ProcessOptions\relax
 \LoadClass[xcolor=table,hyperref={bookmarks},9pt,t]{beamer}  % pdfpagemode=FullScreen
 \RequirePackage[T1]{fontenc}
-\RequirePackage[utf8]{inputenc}
-\RequirePackage{babel}
+%\RequirePackage[utf8]{inputenc}
 \RequirePackage[scaled]{helvet}
 \RequirePackage{graphicx}
 \RequirePackage{xspace}
@@ -59,9 +57,9 @@
 			\ifdefempty{\insertinstitute}{}{~|~\insertinstitute}%
 			\ifdefempty{\insertsubtitle}{}{~|~\insertsubtitle}\par%
 		\vfill}}
-		\put(5,9){\ifx\pathtomylogo\leer{}\else{\color{grau}{\rule{118mm}{0.5pt}}}\fi}
-		\put(5,7.5){\ifx\pathtomylogo\leer{\color{grau}{\rule{118mm}{0.5pt}}}\fi}
-		\put(123,2){\ifx\pathtomylogo\leer\else{\makebox[0mm][r]{\includegraphics[height=6mm]{\pathtomylogo}}}\fi}
+		%\put(5,9){\ifx\pathtomylogo\leer{}\else{\color{grau}{\rule{118mm}{0.5pt}}}\fi}
+		\put(5,7.5){\ifx\pathtomylogo\leer{\color{grau}{\rule{118mm}{0.5pt}}}\else{\color{grau}{\rule{118mm}{0.5pt}}}\fi}
+		\put(123,1){\ifx\pathtomylogo\leer\else{\makebox[0mm][r]{\includegraphics[height=6mm]{\pathtomylogo}}}\fi}
 	\end{picture}}
 
 \setbeamertemplate{headline}{%
@@ -81,14 +79,15 @@
 
 \setbeamertemplate{footline}{%
 	\begin{picture}(100,10)
-	\put(5,9){\ifx\pathtomylogo\leer{}\else{\rule{118mm}{0.5pt}}\fi}
-  \put(5,7.5){\ifx\pathtomylogo\leer{\rule{118mm}{0.5pt}}\fi}
+	%\put(5,9){\ifx\pathtomylogo\leer{}\else{\rule{118mm}{0.5pt}}\fi}
+	\put(5,7.5){\ifx\pathtomylogo\leer{\rule{118mm}{0.5pt}}\else{\rule{118mm}{0.5pt}}\fi}
 	\put(5,1.5){\parbox[b][5.5mm][s]{95mm}{\fontsize{5pt}{5pt}\selectfont\vfill%
 		\textbf{\inserttitle}~|~\insertauthor%
 		\ifdefempty{\insertsubtitle}{}{~|~\insertsubtitle}\par%
 		\vfill\vfill%
-		Seite \insertframenumber\vfill}}
-	\put(123,1.5){\ifx\pathtomylogo\leer\else{\makebox[0mm][r]{\includegraphics[height=6.5mm]{\pathtomylogo}}}\fi}
+		\pagename~\insertframenumber\vfill}}
+	\put(123,1){\ifx\pathtomylogo\leer\else{\makebox[0mm][r]{\includegraphics [height=6mm]
+	{\pathtomylogo}}}\fi}
 	\end{picture}}
 
 \setbeamertemplate{navigation symbols}{}
