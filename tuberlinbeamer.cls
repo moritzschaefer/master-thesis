@@ -11,10 +11,7 @@
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{beamer}}
 \ProcessOptions\relax
 \LoadClass[xcolor=table,hyperref={bookmarks},9pt,t]{beamer}  % pdfpagemode=FullScreen
-\RequirePackage[T1]{fontenc}
-%\RequirePackage[utf8]{inputenc}
-\RequirePackage[scaled]{helvet}
-\RequirePackage{graphicx}
+\RequirePackage[scaled=0.85]{helvet}
 \RequirePackage{xspace}
 \RequirePackage{etoolbox}
 
@@ -28,13 +25,13 @@
 \setbeamersize{text margin left=\rand, text margin right=\rand}
 
 \newcommand*{\lengthinmm}[1]{\strip@pt\dimexpr0.351459804\dimexpr#1\relax\relax}
-\newcommand{\smallcirc}{\begin{picture}(2,2)\put(1,0.9){\circle*{0.9}}\end{picture}}
+\newcommand{\smallcirc}{\begin{picture}(2,2)\put(1,0.9){\circle*{0.88}}\end{picture}}
 \newcommand{\Nike}{\def\FileName{Nike}\setcounter{deko}{1}}
 \newcommand{\Haus}{\def\FileName{Haus}\setcounter{deko}{2}}
 \newcommand{\Aussicht}{\def\FileName{Aussicht}\setcounter{deko}{3}}
 \newcommand{\Leer}{\setcounter{deko}{0}}
 \newcommand{\sehrLeer}{\setcounter{deko}{-1}}
-\renewcommand{\emph}{\textbf}
+\newcommand{\pagename}{Seite} % Definition wird vom babel-Paket ueberschrieben
 
 \linespread{1.1}
 \newcommand{\leer}{}
@@ -50,24 +47,28 @@
 		\put(-0.5,32){\ifnum\thedeko>0\color{TUred}\rule{\rand}{32mm}\fi}
 		\put(5,32){\ifnum\thedeko>0\includegraphics[height=32mm,width=118mm]{\FileName}\fi}
 		\put(5,8){\parbox[b][23mm][s]{118mm}{%
-		\raggedright\vfill
-		\usebeamerfont{title}\usebeamercolor[fg]{titlelike}{\fontsize{12}{14}\selectfont\inserttitle}
-		\vfill
-		\color{grau}\fontsize{8pt}{8pt}\selectfont\insertauthor%
-			\ifdefempty{\insertinstitute}{}{~|~\insertinstitute}%
-			\ifdefempty{\insertsubtitle}{}{~|~\insertsubtitle}\par%
-		\vfill}}
-		%\put(5,9){\ifx\pathtomylogo\leer{}\else{\color{grau}{\rule{118mm}{0.5pt}}}\fi}
-		\put(5,7.5){\ifx\pathtomylogo\leer{\color{grau}{\rule{118mm}{0.5pt}}}\else{\color{grau}{\rule{118mm}{0.5pt}}}\fi}
-		\put(123,1){\ifx\pathtomylogo\leer\else{\makebox[0mm][r]{\includegraphics[height=6mm]{\pathtomylogo}}}\fi}
-	\end{picture}}
+      \raggedright\vfill
+      \usebeamerfont{title}\usebeamercolor[fg]{titlelike}{\fontsize{12}{14}\selectfont\inserttitle\par}
+      \vfill
+      \color{grau}\fontsize{8pt}{8pt}\selectfont\insertauthor%
+			\ifdefempty{\insertinstitute}{}{~\textbar~\insertinstitute}%
+			\ifdefempty{\insertsubtitle}{}{~\textbar~\insertsubtitle}\par%
+      \vfill%
+    }}
+		\put(5,7.5){\ifx\pathtomylogo\leer%
+      {\color{grau}{\rule{118mm}{0.5pt}}}
+      \else{\color{grau}{\rule{118mm}{0.5pt}}}
+      \fi}
+	\end{picture}
+}
 
 \setbeamertemplate{headline}{%
-		\begin{picture}(100,16)
-			\put(-0.5,1){\ifnum\thedeko>0\color{TUred}\rule{\rand}{10mm}\fi}
-			\put(5,1){\ifnum\thedeko>0\includegraphics[height=10mm,width=94mm]{\FileName_head}\fi}
-			\put(104,1){\ifnum\thedeko>-1\includegraphics[width=19mm]{\pathtologo}\fi}
-		\end{picture}}
+	\begin{picture}(100,16)
+		\put(-0.5,1){\ifnum\thedeko>0\color{TUred}\rule{\rand}{10mm}\fi}
+		\put(5,1){\ifnum\thedeko>0\includegraphics[height=10mm,width=94mm]{\FileName_head}\fi}
+		\put(104,1){\ifnum\thedeko>-1\includegraphics[width=19mm]{\pathtologo}\fi}
+	\end{picture}
+}
 
 \setbeamertemplate{frametitle}{%
 	\ifnum\thedeko<0
@@ -83,22 +84,24 @@
 	\ifnum\thedeko>0
 		\insertframetitle
 	\fi
-\vspace{-2mm}
+\vspace{-1mm}
 }
-
 
 \setbeamertemplate{footline}{%
 	\begin{picture}(100,10)
-	%\put(5,9){\ifx\pathtomylogo\leer{}\else{\rule{118mm}{0.5pt}}\fi}
-	\put(5,7.5){\ifx\pathtomylogo\leer{\rule{118mm}{0.5pt}}\else{\rule{118mm}{0.5pt}}\fi}
-	\put(5,1.5){\parbox[b][5.5mm][s]{95mm}{\fontsize{5pt}{5pt}\selectfont\vfill%
-		\textbf{\inserttitle}~|~\insertauthor%
-		\ifdefempty{\insertsubtitle}{}{~|~\insertsubtitle}\par%
-		\vfill\vfill%
-		\pagename~\insertframenumber\vfill}}
-	\put(123,1){\ifx\pathtomylogo\leer\else{\makebox[0mm][r]{\includegraphics [height=6mm]
-	{\pathtomylogo}}}\fi}
-	\end{picture}}
+    \put(5,7.5){\rule{118mm}{0.5pt}}
+    \put(5,1){\parbox[b][6mm][s]{95mm}{\fontsize{5pt}{5pt}\selectfont
+      \raggedright\vfill
+      \textbf{\insertshorttitle}~\textbar~\insertshortauthor
+      \ifdefempty{\insertsubtitle}{}{~\textbar~\insertsubtitle}
+      \vfill\vfill
+      \pagename~\insertframenumber\par\vfill%
+    }}%
+    \put(123,1){\ifx\pathtomylogo\leer
+      \else{\makebox[0mm][r]{\includegraphics[height=6mm]{\pathtomylogo}}}
+      \fi}
+  \end{picture}
+}
 
 \setbeamertemplate{navigation symbols}{}
 \setbeamertemplate{background}{}
@@ -131,3 +134,7 @@
 \setbeamerfont*{itemize/enumerate body}{parent=normal text}
 \setbeamerfont*{itemize/enumerate subbody}{parent=itemize/enumerate body}
 \setbeamerfont*{itemize/enumerate subsubbody}{parent=itemize/enumerate body}
+
+\renewcommand{\emph}{\textbf}
+\renewcommand{\ttdefault}{lmtt}
+\newcommand{\fazit}[1]{{\color{TUred}#1}\xspace}
