@@ -48,7 +48,7 @@
 		\put(5,32){\ifnum\thedeko>0\includegraphics[height=32mm,width=118mm]{\FileName}\fi}
 		\put(5,8){\parbox[b][23mm][s]{118mm}{%
       \raggedright\vfill
-      \usebeamerfont{title}\usebeamercolor[fg]{titlelike}{\fontsize{12}{14}\selectfont\inserttitle\par}
+      \usebeamerfont{title}\usebeamercolor[fg]{titlelike}{\inserttitle\par}
       \vfill
       \color{grau}\fontsize{8pt}{8pt}\selectfont\insertauthor%
 			\ifdefempty{\insertinstitute}{}{~\textbar~\insertinstitute}%
@@ -126,7 +126,7 @@
 \setbeamerfont{block title alerted}{size=\normalsize}
 \setbeamerfont{block title example}{size=\normalsize}
 \setbeamerfont{titlelike}{}
-\setbeamerfont{title}{}
+\setbeamerfont{title}{size=\fontsize{12}{14}\selectfont}
 \setbeamerfont{title in head}{series=\bfseries}
 \setbeamerfont{frametitle}{size=\large}
 \setbeamerfont{section in toc}{series=\bfseries}
