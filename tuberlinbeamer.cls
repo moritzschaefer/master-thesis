@@ -35,7 +35,7 @@
 
 \linespread{1.1}
 \newcommand{\leer}{}
-\newcommand{\pathtologo}{TU_Logo_lang_4c_rot}
+\newcommand{\pathtologo}{TU_Logo_lang_RGB_rot}
 \newcommand{\pathtomylogo}{}
 
 \setbeamertemplate{title page}{%
