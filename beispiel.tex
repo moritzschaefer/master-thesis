@@ -67,15 +67,19 @@
   \begin{itemize}
     \item Cutting-edge guide efficacy scoring
     \item All-in-one guide design tool
-    \item Web-based
       % So it is easy to use for pure biologists only
     \item Functional domain-aware
     \item Incorporate cancer cellline data
   \end{itemize}
 \end{frame}
 
-% lets go into detail of the most important problem I target in my project.
+% So what I wanna show you here is an overview of the solution I built.
+% LIVEDEMO HERE
+\begin{frame}{Live Demo}
+  Live Demo
+\end{frame}{Live Demo}
 
+% As I told before, one large part of my work was to improve the guide efficacy scoring.
 \subsection{Guide efficacy prediction}
 
 \begin{frame}{Guide efficacy prediction -- Dataset}
@@ -103,39 +107,107 @@
 \end{flushright}
 \end{frame}
 
-\begin{frame}{Conservation features}
-  \begin{figure}
-    \includegraphics[width=0.45\linewidth]{Conservation_features.png}
-    \hspace*{0.1in}
-    \includegraphics[width=0.45\linewidth]{conservation_correlations.png}
-  \end{figure}
-  \hspace*{3.1in}
-  $p_{max}=0.0043$
-
-\end{frame}
-
-\begin{frame}{Conservation feature results}
-  Comparison of 100 runs on adaboost
-  \begin{figure}
-    \includegraphics[width=0.45\linewidth]{adaboost_conservation_comparison.png}
-    \hspace*{0.1in}
-    \includegraphics[width=0.45\linewidth]{adaboost_conservation_comparison_boxplot.png}
-  \end{figure}
-\end{frame}
-
-\begin{frame}{Deep Learning architecture}
+\begin{frame}{Guide efficacy prediction -- 1st gen.}
+  \includegraphics[width=\linewidth]{./nucleotide_table.png}
   \begin{flushright}
     \tiny
-      ``Predicting the sequence specificities of DNA-and RNA-binding proteins by deep learning'', 2015, B. Alipanahi et al.\
+    ``Rational design of highly active sgRNAs for CRISPR-Cas9–mediated gene inactivation'', 2014, John G. Doench et al.\
   \end{flushright}
-  \vspace*{-0.3in}
-  \begin{figure}
-    \includegraphics[width=0.65\linewidth]{CNN34_layout.png}
+  %What early publications noticed, is that the effectiveness of a guide to a great extend depends on the sequence of nucleotides
+\end{frame}
+
+\begin{frame}{Guide efficacy prediction -- 2nd gen.}
+  % Later publications then identified COMBINED adjacent nucleotides as predictive features
+  Pairwise nucleotide features
+
+  \pause
+  \huge ACTATCTATCGTACGA{\color{red}TT}GA \\
     \pause
-    \includegraphics[width=0.25\linewidth]{fake_dnn_comparison.png}
+  ACTATCTATCGTACGAC{\color{red}AA}G
+    \begin{flushright}
+      \tiny
+      ``Optimized sgRNA design to maximize activity and minimize off-target effects of CRISPR-Cas9'', 2016, John G. Doench et al.\
+    \end{flushright}
+    \pause
+  \center
+  \includegraphics[width=0.5\linewidth]{./model_comparison1.png}
+\end{frame}
+
+% Unfortunately, the models they used to identify these combinations only allowed for investigating pairs of nucleotides, though we don't know if three four or more adjacent nucleotides do interact in a way that they influence Cas9 binding.
+
+% To be able to identify such larger combinations, I use a tool called
+
+\begin{frame}{Convolutional neural networks}
+  % The motivation behind Convolutional neural networks
+  Aim: Find spatial patterns
+  % This is usually used for image recognition and makes finding edges and shapes very efficient
+  \pause
+  % So if you have this filter here, and convolute it over the image, comparing it with all possible areas in the picture, it will signal a positive result on this area. This makes it a good filter for detecting parts of noses.
+  \includegraphics[width=0.7\linewidth]{./nosefilter.png}
+\end{frame}
+%Now the cool thing is, that a convolutional neural networks learns these shapes on its own just be looking at a ton of images. You tell it to classify noses, it will learn filters to detect nose specific shapes.
+
+% Now the same thing also works with sequences:
+\begin{frame}{Convolutional neural networks}
+  % A 4 character long text filter could look like this
+  \huge[A C A A]
+  \pause
+  % Now if we've got 1000 guide RNAs
+  \vspace{0.7cm}
+  \includegraphics[width=\textwidth]{./manyguides.png}
+\end{frame}
+
+\begin{frame}{Convolutional neural networks}
+  % Ok that's probably a bit too much
+  % Let's say we've got 10 guide RNAs which performed really well in a CRISPR experiment. So they all provoked a Double strand break at their target position.
+  Well performing guides: \\
+  {\large
+    GTAGGGGTCCGTACTCAGCA \\
+    CAGGGTCCGTACTCAGAGGA \\
+    CTAGCGTAGAGCGCACTGCA \\
+    ACTGAGCTAGCGTAGAAGCA \\
+    TGAGCTAGCGTAGAGCACCA \\
+    ACTGAGCTAGCGTAGTAGCT \\
+    AGCGTAGAGCGCGCTGCGCC \\
+    GAGCGCACTGAGCTAGAGAA \\
+    ATAGAGCGCCTGAGCTCGCA \\
+    CGTAGAGCGCACTGAGAGCT \\
+  }
+  % now if you look closely at the last four nucleotides, you notice that they are very similar. A convolutional neural network can recognize this similarity and rerember it with help of a filter.
+\end{frame}
+
+\begin{frame}{Convolutional neural networks}
+  Well performing guides: \\
+  {\large
+    AGCA \\
+    AGGA \\
+    TGCA \\
+    AGCA \\
+    ACCA \\
+    AGCT \\
+    CGCC \\
+    AGAA \\
+    CGCA \\
+    AGCT \\
+  }
+  \pause
+  Learned filter: {[A G C A]}
+  % And this is exactly what we want: This filter now helps the neural network to recognize well performing guides
+\end{frame}
+
+\begin{frame}{Model architecture}
+  \begin{figure}
+    \includegraphics[width=0.65\linewidth]{CNN38_layout.png}
   \end{figure}
 
-  Conclusion: Deep Learning can improve guide efficacy prediction
+\end{frame}
+
+\begin{frame}{Model architecture}
+  \begin{figure}
+    \includegraphics[width=0.65\linewidth]{model_comparison2.png}
+  \end{figure}
+
+  Conclusion: Deep Learning improves guide efficacy prediction
 \end{frame}
 
 % To build the web application, I first developed a data processing pipeline that gathers various relevant data sources, preprocesses them and stores them in an easy to access format in a database. From this data I also generated the BED files being using in the Sequence Browser.
@@ -143,39 +215,6 @@
   \begin{figure}
     \centering
     \includegraphics[width=0.65\linewidth]{architecture.png}
-  \end{figure}
-\end{frame}
-
-% So let me show you how guides are designed for an experiment with a given cellline and a set of targeted genes.
-
-\subsection{Web Application}
-
-\begin{frame}[fragile]{Application overview}
-  \begin{figure}
-    \centering
-    \includegraphics[width=0.8\linewidth]{firstpage.png}
-  \end{figure}
-\end{frame}
-
-\begin{frame}[fragile]{Application overview}
-  \begin{figure}
-    \centering
-    \includegraphics[width=0.8\linewidth]{secondpage.png}
-  \end{figure}
-\end{frame}
-
-
-\begin{frame}[fragile]{Application overview}
-  \begin{figure}
-    \centering
-    \includegraphics[width=0.8\linewidth]{pagethree.png}
-  \end{figure}
-\end{frame}
-
-\begin{frame}[fragile]{Application overview}
-  \begin{figure}
-    \centering
-    \includegraphics[width=0.8\linewidth]{screen4.png}
   \end{figure}
 \end{frame}
 
