@@ -7,10 +7,11 @@
 \usepackage{svg}
 \usepackage[export]{adjustbox}
 \usepackage{amssymb}
+\usepackage{tikz}
 
 % Die ueblichen Angaben
-\title{PAVOOC - Prediction and visualization of on- and off-targets for CRISPR}
-\subtitle{Master thesis}
+\title{PAVOOC - An AI integrated web-app for CRISPR target recommendation}
+\subtitle{Prediction and visualization of on- and off-targets for CRISPR}
 \author[Moritz Schäfer]{Moritz Schäfer}
 \institute{Technische Universität Berlin \& Bayer Pharma}
 
@@ -23,61 +24,143 @@
 \maketitle
 \end{frame}
 
+\section{Motivation}
 
-% \begin{frame}
-% \frametitle{Outline}
-% \tableofcontents
-% \end{frame}
+% Last 8 months in one of these beautiful buildings at Bayer Pharma at Reinickendorfer Straße here in Berlin. There I worked in the oncology department in the target discovery program. But what does this mean?
+\begin{frame}
+  \begin{figure}
+    \includegraphics[width=0.9\linewidth]{bayerbuilding.jpg}
+  \end{figure}
+\end{frame}
+
+% What is Target discovery?
+% When talking about cancer research and drug development, or medicine development, a target is a gene which is essential for survival of a cancer cell.
+% So we extract a cancer cell from a human or animal, we clone it many many times and then we modify the clones, deactivating one gene at a time. There are around 20,000 genes in humans and we target each of those one by one.
+% Now this specific type of tumor cell, like any other cell type, depends on a specific set of genes. If we take out one of these dependent genes, it dies. And this is what we want to achieve.
+
+\begin{frame}{Target discovery}
+  \begin{figure}
+    \includegraphics[width=\linewidth]{targetdiscovery.png}
+  \end{figure}
+\end{frame}
+
+% When treating a patient, we can't use biotechnological tools as in the laboratory to deactivate specific genes, so the next step after having identified a target is finding or designing a small molecule which is able to deactivate the target gene. That small molecule is later produced into these well known medicine pills. After finding such a compound, it is first tested in many ways to ensure its side effects are limited. Before testing it on humans, it first needs to pass numerous toxological tests to see that it only kills cancer cells and not the whole body. After validating it on mice, it then goes into clinical trials until it finally gets approval and can be brought to the market where it is regularly used in treating cancer patients.
+% The vast majority of these drugs don't make it to that stage because they are identified as not effective enough or too dangerous in one of these tests. This is the major reason why drug development is so utterly expensive.
+
+\begin{frame}
+  \begin{figure}
+    \includegraphics[width=\linewidth]{drugdevelopment.png}
+  \end{figure}
+\end{frame}
+
+% But all of this is a completely different story.
+
+% For us in the target discovery program, the main question was to find those targets. And in order to do so we first needed to deactivate single genes ...
+\begin{frame}
+  \begin{figure}
+    \includegraphics[width=\linewidth]{drugdevelopmenttarget.png}
+  \end{figure}
+\end{frame}
+
+% ...as I showed before.
+\begin{frame}{Target discovery}
+  \begin{figure}
+    \includegraphics[width=\linewidth]{targetdiscovery.png}
+  \end{figure}
+\end{frame}
+
+% How do we do that? How can we deactivate, or knock out, genes in the first place? There have been different biochemical methods to make cuts in the genome for several decades now, which were all very imprecise, inefficient and difficult to work with.
+% In 2012 however researchers identified CRISPR as a programmable way to cut DNA in a simple and efficient way.
 
 \section{Background}
-\begin{frame}{Background}
-  \begin{figure}
-    \hspace*{0.2in}
-    \includegraphics[width=0.57\linewidth,left]{Doudna-art-crop.jpg}
-  \end{figure}
-  \begin{itemize}
-    \item Knockout experiments used in drug target validation
-    \item Sequence (partially) determines efficacy
-  \end{itemize}
+\begin{frame}{How to knock out genes?}
+  % {\Huge CRISPR}
+  \pause
+  \vspace*{0.9in}
+  \centering \Huge
+  \emph{CRISPR}
 \end{frame}
+
+%CRISPR is a system in bacteria to defend themselves against viral attacks.
+%In the picture you see a bacterium which is being attacked by viruses. Viruses inject their DNA into the bacterium, force the bacterium to reproduce the viral DNA and to build new viruses which leads to the replication of the virus and to the death of the bacterium.
+%With CRISPR, bacteria are able to remember and cut viral DNA in order to repel the attack.
+
+{ % all template changes are local to this group.
+    \setbeamertemplate{navigation symbols}{}
+    \setbeamercolor{background canvas}{bg=black}
+    \begin{frame}[plain]
+        \begin{tikzpicture}[remember picture,overlay]
+            \node[at=(current page.center)] {
+                \includegraphics[width=\paperwidth]{bacterium.jpg}
+            };
+        \end{tikzpicture}
+     \end{frame}
+}
+
+% The key player of the CRISPR defense system is the Cas9 protein. Inside the bacterium it binds to a piece of viral DNA that the bacterium stored in order to be able to identify a virus on later attacks.
+
+\begin{frame}
+  \begin{figure}
+    \includegraphics[width=0.85\linewidth,left]{Doudna-art-crop-upper.jpg}
+  \end{figure}
+\end{frame}
+
+% The Cas9 protein now scans DNA and if it finds a match to this piece, it binds and cuts.
+% This key player was extracted from bacteria and can now be used to edit the DNA of arbitrary cells, including human cells.
+
+\begin{frame}
+  \begin{figure}
+    \includegraphics[width=0.85\linewidth,left]{Doudna-art-crop.jpg}
+  \end{figure}
+\end{frame}
+
+% Even though CRISPR was first discovered as a tool to cut DNA in 2012, it is already a standard tool in most biological laboratories in the life sciences. And in the target validation, we also started to use CRISPR in order to deactivate single genes.
+% What happens when you make a single cut inside a gene is, that the cell detects, that your DNA is broken into two pieces and repairs it binding the two pieces together. However, the cell is not able to do this without errors and most often the gene is left deactivated or knocked out.
+
+\begin{frame}
+  \begin{figure}
+    \includegraphics[width=0.85\linewidth,left]{Doudna-art-crop-repair.jpg}
+  \end{figure}
+\end{frame}
+
 
 \section{Problem}
 
+% Now this all sounds very promising. Cutting DNA wherever you want, easily disabling specific genes.. However in biology it's never that easy. First of all, the Cas9 protein cuts better or worse depending on the targeted sequence. So if we want to cut inside a gene to knock it out, it can happen, that we target a sequence which is very difficult to cut for this Cas9 protein.
+
 \begin{frame}
-  \frametitle{Problem}
+  \frametitle{Problems}
   \begin{itemize}
-    % \item Many tedious and incomplete guide design tools \\
-    %   \texttt{./guidesearch | ./convert\_output.sh | ./score\_guides > output.csv}
-    \item Guide prediction scores still vary in performance
+    \item Guide performance varies significantly
     \pause
-    \item A lot of manual labor for guide selection \\
-      \includegraphics[width=0.7\linewidth,left]{xlswork.png}
-    \pause
+    % Another problem arises from the way proteins are being created from the DNA. The amino acids of a protein are coded by triplets of nucleotides in the DNA. The reason why a simple cut in the DNA often results in a knockout of the gene is that this arrangements of thriplets is disturbed. This is called a frame shift and it means, that all subsequent amino acid encodings are changed.
+    % In about 30% of all cases however, the random modification introduced here do NOT provoke a frame shift which leads to the modification of several amino acids only.
+      \vspace{0.1cm}
     \item Non-frame-shift indels cannot be circumvented
-      \includegraphics[width=0.6\linewidth,left]{nonframeshift.png}
-    \pause
-    \item Cancer cellline data affects certain guides
-      \includegraphics[width=0.3\linewidth,left]{guide_snp.png}
+      \includegraphics[width=0.8\linewidth,left]{nonframeshift.png}
   \end{itemize}
 \end{frame}
 
 \section{Solution}
 
+% What I did in my master thesis and what I want to show you in this presentation is my solution to these problems. First I designed a machine learning model, which is capable of predicting the likeliness of a guide to cut at the intended site.
+% Based on this model, I built a web application, that facilitates the design of CRISPR guides for gene knockout experiments. One key feature of the tool is to enable biologists to circumvent unsuccessful knockouts due to non-frame-shifts
+
 \begin{frame}{Solution}
   \begin{itemize}
+    \vspace{0.2cm}
     \item Cutting-edge guide efficacy scoring
-    \item All-in-one guide design tool
-      % So it is easy to use for pure biologists only
-    \item Functional domain-aware
-    \item Incorporate cancer cellline data
+      \pause
+    \vspace{0.2cm}
+    \item Web based guide design tool
   \end{itemize}
 \end{frame}
 
 % So what I wanna show you here is an overview of the solution I built.
 % LIVEDEMO HERE
 \begin{frame}{Live Demo}
-  Live Demo
-\end{frame}{Live Demo}
+  \url{http://pavooc.me}
+\end{frame}
 
 % As I told before, one large part of my work was to improve the guide efficacy scoring.
 \subsection{Guide efficacy prediction}
@@ -98,7 +181,8 @@
     \end{tabular}
 \end{table}
 \begin{itemize}
-  \item 5310 data rows
+  \item 1,837 data rows from 2014
+  \item 3,473 data rows from 2016
   \item Efficacy relates to cell proliferation after CRISPR application
 \end{itemize}
 \begin{flushright}
@@ -107,7 +191,9 @@
 \end{flushright}
 \end{frame}
 
-\begin{frame}{Guide efficacy prediction -- 1st gen.}
+% aus thesis:
+% Doench et al. showed in their publications form 2014 to 2016, that CRISPR guide efficacy depends significantly on the sequence of the protospacer.[DHG + 14][DFS + 16] They ran several experiments to determine guide efficacies for different protospacer sequences and built a linear model which considered single nucleotide positions as its inputs.
+\begin{frame}{Guide efficacy prediction -- 2014}
   \includegraphics[width=\linewidth]{./nucleotide_table.png}
   \begin{flushright}
     \tiny
@@ -116,7 +202,7 @@
   %What early publications noticed, is that the effectiveness of a guide to a great extend depends on the sequence of nucleotides
 \end{frame}
 
-\begin{frame}{Guide efficacy prediction -- 2nd gen.}
+\begin{frame}{Guide efficacy prediction -- 2016 (Azimuth)}
   % Later publications then identified COMBINED adjacent nucleotides as predictive features
   Pairwise nucleotide features
 
@@ -133,17 +219,19 @@
   \includegraphics[width=0.5\linewidth]{./model_comparison1.png}
 \end{frame}
 
+
 % Unfortunately, the models they used to identify these combinations only allowed for investigating pairs of nucleotides, though we don't know if three four or more adjacent nucleotides do interact in a way that they influence Cas9 binding.
 
-% To be able to identify such larger combinations, I use a tool called
+% To be able to identify such larger combinations, I used a tool called convolutional neural networks
 
 \begin{frame}{Convolutional neural networks}
   % The motivation behind Convolutional neural networks
-  Aim: Find spatial patterns
-  % This is usually used for image recognition and makes finding edges and shapes very efficient
+  Aim: Finding spatial patterns
+  \vspace{0.2cm}
+  % This is usually used for image recognition and makes finding edges and shapes very efficient. Let's play a little mind game here to explain how convolutional neural networks work. Imagine we want to train a classifier which is capable of identifying noses.
   \pause
   % So if you have this filter here, and convolute it over the image, comparing it with all possible areas in the picture, it will signal a positive result on this area. This makes it a good filter for detecting parts of noses.
-  \includegraphics[width=0.7\linewidth]{./nosefilter.png}
+  \includegraphics[width=\linewidth]{./nosefilter.png}
 \end{frame}
 %Now the cool thing is, that a convolutional neural networks learns these shapes on its own just be looking at a ton of images. You tell it to classify noses, it will learn filters to detect nose specific shapes.
 
@@ -199,6 +287,18 @@
   \begin{figure}
     \includegraphics[width=0.65\linewidth]{CNN38_layout.png}
   \end{figure}
+  \pause
+  \begin{figure}
+    \includegraphics[width=0.65\linewidth]{convolution.png}
+  \end{figure}
+\end{frame}
+
+% TODO maybe delete
+\begin{frame}{Model optimization}
+  \vspace{-0.3cm}
+  \begin{figure}
+    \includegraphics[width=0.57\linewidth]{cnn38_saturation.png}
+  \end{figure}
 
 \end{frame}
 
@@ -206,22 +306,66 @@
   \begin{figure}
     \includegraphics[width=0.65\linewidth]{model_comparison2.png}
   \end{figure}
+\end{frame}
 
-  Conclusion: Deep Learning improves guide efficacy prediction
+% At this point it's probably a good idea how the performance of a model is evaluated for such a problem. The Spearman correlation coefficient is the de facto standard for guide efficacy prediction. In contrary to the linear Pearson correlation it is based
+
+\begin{frame}{Spearman correlation}
+  \includegraphics[width=0.50\linewidth]{./Spearman1.png}
+\end{frame}
+
+\begin{frame}{Spearman correlation}
+  \begin{itemize}
+    \item Test set labels: [0.2, 0.3, 0.5, 0.9]
+    \item Test set predictions: [0.4, 0.6, 0.7, 0.8]
+    \item Spearman correlation: 1.0
+  \end{itemize}
+  \pause
+  \vspace{0.3cm}
+  {\large Advantages:}
+  \begin{itemize}
+    \item Ranking mimicks the task of guide selection
+    \pause
+    \item Robust against outliers
+    \begin{figure}
+      \includegraphics[width=0.30\linewidth]{./Spearman2.png}
+    \end{figure}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Performance evaluation}
+  \begin{figure}
+    \includegraphics[width=0.60\linewidth]{./datasetpartition.png}
+  \end{figure}
+  \pause
+  \begin{figure}
+    \includegraphics[width=0.75\linewidth]{./validation_training_curve.png}
+  \end{figure}
+
 \end{frame}
 
 % To build the web application, I first developed a data processing pipeline that gathers various relevant data sources, preprocesses them and stores them in an easy to access format in a database. From this data I also generated the BED files being using in the Sequence Browser.
-\begin{frame}{Architecture}
-  \begin{figure}
-    \centering
-    \includegraphics[width=0.65\linewidth]{architecture.png}
-  \end{figure}
+% \begin{frame}{Architecture}
+%   \begin{figure}
+%     \centering
+%     \includegraphics[width=0.65\linewidth]{architecture.png}
+%   \end{figure}
+% \end{frame}
+
+\begin{frame}{Conclusion and Takeaways}
+  % We started with this thought, we achieved this in the end
+  \begin{itemize}
+    \item Cas9 efficacy depends on complex biological coherences % which is why a more complex model boosts performance
+    \item DL improves guide efficacy prediction %
+    \item DL feasible with \textasciitilde5,000 rows
+  \end{itemize}
+
 \end{frame}
 
 \begin{frame}{Acknowledgements}
   \begin{itemize}
-    \item Dr.\ Andreas Steffen (supervisor at Bayer)
     \item Prof.\ Manfred Opper (supervisor at TU Berlin)
+    \item Dr.\ Andreas Steffen (supervisor at Bayer)
     \item Dr.\ Djork-Arne Clevert (machine learning scientist at Bayer)
     \item Robin Winter (PhD student at Bayer)
     \item Bayer Pharma AG
