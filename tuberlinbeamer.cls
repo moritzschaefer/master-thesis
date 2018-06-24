@@ -35,7 +35,7 @@
 
 \linespread{1.1}
 \newcommand{\leer}{}
-\newcommand{\pathtologo}{TU_Logo_lang_4c_rot}
+\newcommand{\pathtologo}{TU_Logo_lang_RGB_rot}
 \newcommand{\pathtomylogo}{}
 
 \setbeamertemplate{title page}{%
@@ -66,17 +66,17 @@
 	\begin{picture}(100,16)
 		\put(-0.5,1){\ifnum\thedeko>0\color{TUred}\rule{\rand}{10mm}\fi}
 		\put(5,1){\ifnum\thedeko>0\includegraphics[height=10mm,width=94mm]{\FileName_head}\fi}
-		\put(104,1){\ifnum\thedeko>-1\includegraphics[width=19mm]{\pathtologo}\fi}
+		\put(105,1){\ifnum\thedeko>-1\includegraphics[width=18mm]{\pathtologo}\fi}
 	\end{picture}
 }
 
 \setbeamertemplate{frametitle}{%
 	\ifnum\thedeko<0
-		\vspace{-12.5mm}
+		\vspace{-12mm}
 		\insertframetitle
 	\fi
 	\ifnum\thedeko=0
-		\vspace{-6mm}
+		\vspace{-5mm}
 		\begin{picture}(0,0)
 			\put(0,0){\parbox[b][10mm][b]{94mm}{\raggedright\insertframetitle\vphantom{Ag}}}
 		\end{picture}
