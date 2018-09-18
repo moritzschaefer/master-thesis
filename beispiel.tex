@@ -169,27 +169,6 @@
 % To be able to identify such larger combinations, I used a tool called convolutional neural networks
 
 \begin{frame}{Convolutional neural networks}
-  % The motivation behind Convolutional neural networks
-  Aim: Finding spatial patterns
-  \vspace{0.2cm}
-  % This is usually used for image recognition and makes finding edges and shapes very efficient. Let's play a little mind game here to explain how convolutional neural networks work. Imagine we want to train a classifier which is capable of identifying noses.
-  \pause
-  % So if you have this filter here, and convolute it over the image, comparing it with all possible areas in the picture, it will signal a positive result on this area. This makes it a good filter for detecting parts of noses.
-  \includegraphics[width=\linewidth]{./nosefilter.png}
-\end{frame}
-%Now the cool thing is, that a convolutional neural networks learns these shapes on its own just be looking at a ton of images. You tell it to classify noses, it will learn filters to detect nose specific shapes.
-
-% Now the same thing also works with sequences:
-\begin{frame}{Convolutional neural networks}
-  % A 4 character long text filter could look like this
-  \huge[A C A A]
-  \pause
-  % Now if we've got 1000 guide RNAs
-  \vspace{0.7cm}
-  \includegraphics[width=\textwidth]{./manyguides.png}
-\end{frame}
-
-\begin{frame}{Convolutional neural networks}
   % Ok that's probably a bit too much
   % Let's say we've got 10 guide RNAs which performed really well in a CRISPR experiment. So they all provoked a Double strand break at their target position.
   Well performing guides: \\
@@ -210,30 +189,33 @@
 
 \begin{frame}{Convolutional neural networks}
   Well performing guides: \\
-  {\large
+  \textcolor{green}{\large
     AGCA \\
-    AGGA \\
-    TGCA \\
+    AG{\textcolor{black}G}A \\
+    {\textcolor{black}T}GCA \\
     AGCA \\
-    ACCA \\
-    AGCT \\
-    CGCC \\
-    AGAA \\
-    CGCA \\
-    AGCT \\
+    A{\textcolor{black}C}CA \\
+    AGC{\textcolor{black}T} \\
+    {\textcolor{black}C}GC{\textcolor{black}C} \\
+    AG{\textcolor{black}A}A \\
+    {\textcolor{black}C}GCA \\
+    AGC{\textcolor{black}T} \\
   }
   \pause
-  Learned filter: {[A G C A]}
+  Learned filter: \textcolor{green}{[A G C A]}
   % And this is exactly what we want: This filter now helps the neural network to recognize well performing guides
 \end{frame}
 
 \begin{frame}{Model architecture}
   \begin{figure}
-    \includegraphics[width=0.65\linewidth]{CNN38_layout.png}
+    \includegraphics[width=0.9\linewidth]{CNN38_layout.png}
   \end{figure}
-  \pause
+\end{frame}
+
+\begin{frame}{Model architecture -- Convolution module}
+  \vspace{2.0cm}
   \begin{figure}
-    \includegraphics[width=0.65\linewidth]{convolution.png}
+    \includegraphics[width=0.8\linewidth]{convolution.png}
   \end{figure}
 \end{frame}
 
@@ -254,28 +236,6 @@
 
 % At this point it's probably a good idea how the performance of a model is evaluated for such a problem. The Spearman correlation coefficient is the de facto standard for guide efficacy prediction. In contrary to the linear Pearson correlation it is based
 
-\begin{frame}{Spearman correlation}
-  \includegraphics[width=0.50\linewidth]{./Spearman1.png}
-\end{frame}
-
-\begin{frame}{Spearman correlation}
-  \begin{itemize}
-    \item Test set labels: [0.2, 0.3, 0.5, 0.9]
-    \item Test set predictions: [0.4, 0.6, 0.7, 0.8]
-    \item Spearman correlation: 1.0
-  \end{itemize}
-  \pause
-  \vspace{0.3cm}
-  {\large Advantages:}
-  \begin{itemize}
-    \item Ranking mimicks the task of guide selection
-    \pause
-    \item Robust against outliers
-    \begin{figure}
-      \includegraphics[width=0.30\linewidth]{./Spearman2.png}
-    \end{figure}
-  \end{itemize}
-\end{frame}
 
 \begin{frame}{Performance evaluation}
   \begin{figure}
@@ -306,6 +266,41 @@
 
 \end{frame}
 
+
+\begin{frame}{Future Work \& Discussion}
+  \begin{itemize}
+    \item Additional input features (chromatin accessibility)
+    \item Evaluate model on different datasets
+    \item Support additional species
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{End}
+\end{frame}
+
+\begin{frame}{Spearman correlation}
+  \includegraphics[width=0.50\linewidth]{./Spearman1.png}
+\end{frame}
+
+\begin{frame}{Spearman correlation}
+  \begin{itemize}
+    \item Test set labels: [0.2, 0.3, 0.5, 0.9]
+    \item Test set predictions: [0.4, 0.6, 0.7, 0.8]
+    \item Spearman correlation: 1.0
+  \end{itemize}
+  \pause
+  \vspace{0.3cm}
+  {\large Advantages:}
+  \begin{itemize}
+    \item Ranking mimicks the task of guide selection
+    \pause
+    \item Robust against outliers
+    \begin{figure}
+      \includegraphics[width=0.30\linewidth]{./Spearman2.png}
+    \end{figure}
+  \end{itemize}
+\end{frame}
+
 \begin{frame}{Acknowledgements}
   \begin{itemize}
     \item Prof.\ Manfred Opper (supervisor at TU Berlin)
@@ -315,14 +310,6 @@
     \item Bayer Pharma AG
   \end{itemize}
 
-\end{frame}
-
-\begin{frame}{Future Work \& Discussion}
-  \begin{itemize}
-    \item Additional input features (chromatin accessibility)
-    \item Evaluate model on different datasets
-    \item Support additional species
-  \end{itemize}
 \end{frame}
 
 \end{document}
