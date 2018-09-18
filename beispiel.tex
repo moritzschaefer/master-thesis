@@ -43,62 +43,6 @@
     \includegraphics[width=\linewidth]{targetdiscovery.png}
   \end{figure}
 \end{frame}
-
-% When treating a patient, we can't use biotechnological tools as in the laboratory to deactivate specific genes, so the next step after having identified a target is finding or designing a small molecule which is able to deactivate the target gene. That small molecule is later produced into these well known medicine pills. After finding such a compound, it is first tested in many ways to ensure its side effects are limited. Before testing it on humans, it first needs to pass numerous toxological tests to see that it only kills cancer cells and not the whole body. After validating it on mice, it then goes into clinical trials until it finally gets approval and can be brought to the market where it is regularly used in treating cancer patients.
-% The vast majority of these drugs don't make it to that stage because they are identified as not effective enough or too dangerous in one of these tests. This is the major reason why drug development is so utterly expensive.
-
-\begin{frame}
-  \begin{figure}
-    \includegraphics[width=\linewidth]{drugdevelopment.png}
-  \end{figure}
-\end{frame}
-
-% But all of this is a completely different story.
-
-% For us in the target discovery program, the main question was to find those targets. And in order to do so we first needed to deactivate single genes ...
-\begin{frame}
-  \begin{figure}
-    \includegraphics[width=\linewidth]{drugdevelopmenttarget.png}
-  \end{figure}
-\end{frame}
-
-% ...as I showed before.
-\begin{frame}{Target discovery}
-  \begin{figure}
-    \includegraphics[width=\linewidth]{targetdiscovery.png}
-  \end{figure}
-\end{frame}
-
-% How do we do that? How can we deactivate, or knock out, genes in the first place? There have been different biochemical methods to make cuts in the genome for several decades now, which were all very imprecise, inefficient and difficult to work with.
-% In 2012 however researchers identified CRISPR as a programmable way to cut DNA in a simple and efficient way.
-
-\section{Background}
-\begin{frame}{How to knock out genes?}
-  % {\Huge CRISPR}
-  \pause
-  \vspace*{0.9in}
-  \centering \Huge
-  \emph{CRISPR}
-\end{frame}
-
-%CRISPR is a system in bacteria to defend themselves against viral attacks.
-%In the picture you see a bacterium which is being attacked by viruses. Viruses inject their DNA into the bacterium, force the bacterium to reproduce the viral DNA and to build new viruses which leads to the replication of the virus and to the death of the bacterium.
-%With CRISPR, bacteria are able to remember and cut viral DNA in order to repel the attack.
-
-{ % all template changes are local to this group.
-    \setbeamertemplate{navigation symbols}{}
-    \setbeamercolor{background canvas}{bg=black}
-    \begin{frame}[plain]
-        \begin{tikzpicture}[remember picture,overlay]
-            \node[at=(current page.center)] {
-                \includegraphics[width=\paperwidth]{bacterium.jpg}
-            };
-        \end{tikzpicture}
-     \end{frame}
-}
-
-% The key player of the CRISPR defense system is the Cas9 protein. Inside the bacterium it binds to a piece of viral DNA that the bacterium stored in order to be able to identify a virus on later attacks.
-
 \begin{frame}
   \begin{figure}
     \includegraphics[width=0.85\linewidth,left]{Doudna-art-crop-upper.jpg}
@@ -131,13 +75,13 @@
 \begin{frame}
   \frametitle{Problems}
   \begin{itemize}
-    \item Guide performance varies significantly
-    \pause
-    % Another problem arises from the way proteins are being created from the DNA. The amino acids of a protein are coded by triplets of nucleotides in the DNA. The reason why a simple cut in the DNA often results in a knockout of the gene is that this arrangements of thriplets is disturbed. This is called a frame shift and it means, that all subsequent amino acid encodings are changed.
-    % In about 30% of all cases however, the random modification introduced here do NOT provoke a frame shift which leads to the modification of several amino acids only.
-      \vspace{0.1cm}
     \item Non-frame-shift indels cannot be circumvented
       \includegraphics[width=0.8\linewidth,left]{nonframeshift.png}
+      \vspace{0.1cm}
+    \pause
+    \item Guide performance varies significantly
+    % Another problem arises from the way proteins are being created from the DNA. The amino acids of a protein are coded by triplets of nucleotides in the DNA. The reason why a simple cut in the DNA often results in a knockout of the gene is that this arrangements of thriplets is disturbed. This is called a frame shift and it means, that all subsequent amino acid encodings are changed.
+    % In about 30% of all cases however, the random modification introduced here do NOT provoke a frame shift which leads to the modification of several amino acids only.
   \end{itemize}
 \end{frame}
 
