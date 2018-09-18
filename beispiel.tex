@@ -44,92 +44,12 @@
   \end{figure}
 \end{frame}
 
-% When treating a patient, we can't use biotechnological tools as in the laboratory to deactivate specific genes, so the next step after having identified a target is finding or designing a small molecule which is able to deactivate the target gene. That small molecule is later produced into these well known medicine pills. After finding such a compound, it is first tested in many ways to ensure its side effects are limited. Before testing it on humans, it first needs to pass numerous toxological tests to see that it only kills cancer cells and not the whole body. After validating it on mice, it then goes into clinical trials until it finally gets approval and can be brought to the market where it is regularly used in treating cancer patients.
-% The vast majority of these drugs don't make it to that stage because they are identified as not effective enough or too dangerous in one of these tests. This is the major reason why drug development is so utterly expensive.
-
-\begin{frame}
-  \begin{figure}
-    \includegraphics[width=\linewidth]{drugdevelopment.png}
-  \end{figure}
-\end{frame}
-
-% But all of this is a completely different story.
-
-% For us in the target discovery program, the main question was to find those targets. And in order to do so we first needed to deactivate single genes ...
-\begin{frame}
-  \begin{figure}
-    \includegraphics[width=\linewidth]{drugdevelopmenttarget.png}
-  \end{figure}
-\end{frame}
-
-% ...as I showed before.
-\begin{frame}{Target discovery}
-  \begin{figure}
-    \includegraphics[width=\linewidth]{targetdiscovery.png}
-  \end{figure}
-\end{frame}
-
-% How do we do that? How can we deactivate, or knock out, genes in the first place? There have been different biochemical methods to make cuts in the genome for several decades now, which were all very imprecise, inefficient and difficult to work with.
-% In 2012 however researchers identified CRISPR as a programmable way to cut DNA in a simple and efficient way.
-
-\section{Background}
-\begin{frame}{How to knock out genes?}
-  % {\Huge CRISPR}
-  \pause
-  \vspace*{0.9in}
-  \centering \Huge
-  \emph{CRISPR}
-\end{frame}
-
-%CRISPR is a system in bacteria to defend themselves against viral attacks.
-%In the picture you see a bacterium which is being attacked by viruses. Viruses inject their DNA into the bacterium, force the bacterium to reproduce the viral DNA and to build new viruses which leads to the replication of the virus and to the death of the bacterium.
-%With CRISPR, bacteria are able to remember and cut viral DNA in order to repel the attack.
-
-{ % all template changes are local to this group.
-    \setbeamertemplate{navigation symbols}{}
-    \setbeamercolor{background canvas}{bg=black}
-    \begin{frame}[plain]
-        \begin{tikzpicture}[remember picture,overlay]
-            \node[at=(current page.center)] {
-                \includegraphics[width=\paperwidth]{bacterium.jpg}
-            };
-        \end{tikzpicture}
-     \end{frame}
-}
-
-% The key player of the CRISPR defense system is the Cas9 protein. Inside the bacterium it binds to a piece of viral DNA that the bacterium stored in order to be able to identify a virus on later attacks.
-
-\begin{frame}
-  \begin{figure}
-    \includegraphics[width=0.85\linewidth,left]{Doudna-art-crop-upper.jpg}
-  \end{figure}
-\end{frame}
-
-% The Cas9 protein now scans DNA and if it finds a match to this piece, it binds and cuts.
-% This key player was extracted from bacteria and can now be used to edit the DNA of arbitrary cells, including human cells.
-
-\begin{frame}
-  \begin{figure}
-    \includegraphics[width=0.85\linewidth,left]{Doudna-art-crop.jpg}
-  \end{figure}
-\end{frame}
-
-% Even though CRISPR was first discovered as a tool to cut DNA in 2012, it is already a standard tool in most biological laboratories in the life sciences. And in the target validation, we also started to use CRISPR in order to deactivate single genes.
-% What happens when you make a single cut inside a gene is, that the cell detects, that your DNA is broken into two pieces and repairs it binding the two pieces together. However, the cell is not able to do this without errors and most often the gene is left deactivated or knocked out.
-
-\begin{frame}
-  \begin{figure}
-    \includegraphics[width=0.85\linewidth,left]{Doudna-art-crop-repair.jpg}
-  \end{figure}
-\end{frame}
-
-
 \section{Problem}
 
 % Now this all sounds very promising. Cutting DNA wherever you want, easily disabling specific genes.. However in biology it's never that easy. First of all, the Cas9 protein cuts better or worse depending on the targeted sequence. So if we want to cut inside a gene to knock it out, it can happen, that we target a sequence which is very difficult to cut for this Cas9 protein.
 
 \begin{frame}
-  \frametitle{Problems}
+  \frametitle{CRISPR problems}
   \begin{itemize}
     \item Guide performance varies significantly
     \pause
@@ -138,6 +58,10 @@
       \vspace{0.1cm}
     \item Non-frame-shift indels cannot be circumvented
       \includegraphics[width=0.8\linewidth,left]{nonframeshift.png}
+    \pause
+    \item Cancer mutations may affect binding site
+      \vspace{0.2cm}
+      \includegraphics[width=0.4\linewidth,left]{guide_snp.png}
   \end{itemize}
 \end{frame}
 
@@ -153,13 +77,16 @@
       \pause
     \vspace{0.2cm}
     \item Web based guide design tool
+      \pause
+    \vspace{0.2cm}
+    \item Guide filtering for (cancer induced) single nucleotide variations
   \end{itemize}
 \end{frame}
 
 % So what I wanna show you here is an overview of the solution I built.
 % LIVEDEMO HERE
 \begin{frame}{Live Demo}
-  \url{http://pavooc.me}
+  \url{https://pavooc.me}
 \end{frame}
 
 % As I told before, one large part of my work was to improve the guide efficacy scoring.
@@ -223,30 +150,35 @@
 % Unfortunately, the models they used to identify these combinations only allowed for investigating pairs of nucleotides, though we don't know if three four or more adjacent nucleotides do interact in a way that they influence Cas9 binding.
 
 % To be able to identify such larger combinations, I used a tool called convolutional neural networks
-
-\begin{frame}{Convolutional neural networks}
-  % The motivation behind Convolutional neural networks
-  Aim: Finding spatial patterns
-  \vspace{0.2cm}
-  % This is usually used for image recognition and makes finding edges and shapes very efficient. Let's play a little mind game here to explain how convolutional neural networks work. Imagine we want to train a classifier which is capable of identifying noses.
-  \pause
-  % So if you have this filter here, and convolute it over the image, comparing it with all possible areas in the picture, it will signal a positive result on this area. This makes it a good filter for detecting parts of noses.
-  \includegraphics[width=\linewidth]{./nosefilter.png}
+\begin{frame}{Guide efficacy prediction -- Dataset}
+\begin{table}[]
+    \centering
+    \begin{tabular}{cc}
+        \textbf{Guide} & \textbf{Measured efficacy} \\ \hline
+\texttt{GTAGGGGTCCGTACTCAGCAAGG} & 0.86 \\
+\texttt{ACACTGCCGAGCGATGAGGATGG} & 0.42 \\
+\texttt{AAGGTGAAGGAGGATGCGGCGGG} & 0.53 \\
+\texttt{GAAAAGATAGGTCACTGACCCGG} & 0.12 \\
+\texttt{GCAAGTCACTGAGTGCAGAACGG} & 0.73 \\
+\texttt{GCATTGGTAAGCGCACAGGAAGG} & 0.70 \\
+\texttt{AAGACTGGCGCATGGTCCACTGG} & 0.57 \\
+\texttt{...} & ... \\
+    \end{tabular}
+\end{table}
+\begin{itemize}
+  \item 1,837 data rows from 2014
+  \item 3,473 data rows from 2016
+  \item Efficacy relates to cell proliferation after CRISPR application
+\end{itemize}
+\begin{flushright}
+  \tiny
+  ``Optimized sgRNA design to maximize activity and minimize off-target effects of CRISPR-Cas9'', 2016, John G. Doench et al.\
+\end{flushright}
 \end{frame}
+
 %Now the cool thing is, that a convolutional neural networks learns these shapes on its own just be looking at a ton of images. You tell it to classify noses, it will learn filters to detect nose specific shapes.
 
-% Now the same thing also works with sequences:
 \begin{frame}{Convolutional neural networks}
-  % A 4 character long text filter could look like this
-  \huge[A C A A]
-  \pause
-  % Now if we've got 1000 guide RNAs
-  \vspace{0.7cm}
-  \includegraphics[width=\textwidth]{./manyguides.png}
-\end{frame}
-
-\begin{frame}{Convolutional neural networks}
-  % Ok that's probably a bit too much
   % Let's say we've got 10 guide RNAs which performed really well in a CRISPR experiment. So they all provoked a Double strand break at their target position.
   Well performing guides: \\
   {\large
@@ -266,20 +198,20 @@
 
 \begin{frame}{Convolutional neural networks}
   Well performing guides: \\
-  {\large
+  \textcolor{green}{\large
     AGCA \\
-    AGGA \\
-    TGCA \\
+    AG{\textcolor{black}G}A \\
+    {\textcolor{black}T}GCA \\
     AGCA \\
-    ACCA \\
-    AGCT \\
-    CGCC \\
-    AGAA \\
-    CGCA \\
-    AGCT \\
+    A{\textcolor{black}C}CA \\
+    AGC{\textcolor{black}T} \\
+    {\textcolor{black}C}GC{\textcolor{black}C} \\
+    AG{\textcolor{black}A}A \\
+    {\textcolor{black}C}GCA \\
+    AGC{\textcolor{black}T} \\
   }
   \pause
-  Learned filter: {[A G C A]}
+  Learned filter: \textcolor{green}{[A G C A]}
   % And this is exactly what we want: This filter now helps the neural network to recognize well performing guides
 \end{frame}
 
@@ -308,30 +240,38 @@
   \end{figure}
 \end{frame}
 
+% To build the web application, I first developed a data processing pipeline that gathers various relevant data sources, preprocesses them and stores them in an easy to access format in a database. From this data I also generated the BED files being using in the Sequence Browser.
+% \begin{frame}{Architecture}
+%   \begin{figure}
+%     \centering
+%     \includegraphics[width=0.65\linewidth]{architecture.png}
+%   \end{figure}
+% \end{frame}
+
+\begin{frame}{Conclusion and Takeaways}
+  % We started with this thought, we achieved this in the end
+  \begin{itemize}
+    \item PAVOOC provides amino acid level bindings
+    \item Cas9 efficacy depends on complex biological coherences % which is why a more complex model boosts performance
+    \item DL improves guide efficacy prediction %
+    \item DL feasible with \textasciitilde5,000 rows
+  \end{itemize}
+  Disclaimer: My model is not employed in the website for publication reasons.
+
+\end{frame}
+%% end %%
+
+
+\begin{frame}{Future Work \& Discussion}
+  \begin{itemize}
+    \item Additional input features (chromatin accessibility)
+    \item Evaluate model on different datasets
+    \item Support additional species and assembly versions
+  \end{itemize}
+\end{frame}
+
 % At this point it's probably a good idea how the performance of a model is evaluated for such a problem. The Spearman correlation coefficient is the de facto standard for guide efficacy prediction. In contrary to the linear Pearson correlation it is based
 
-\begin{frame}{Spearman correlation}
-  \includegraphics[width=0.50\linewidth]{./Spearman1.png}
-\end{frame}
-
-\begin{frame}{Spearman correlation}
-  \begin{itemize}
-    \item Test set labels: [0.2, 0.3, 0.5, 0.9]
-    \item Test set predictions: [0.4, 0.6, 0.7, 0.8]
-    \item Spearman correlation: 1.0
-  \end{itemize}
-  \pause
-  \vspace{0.3cm}
-  {\large Advantages:}
-  \begin{itemize}
-    \item Ranking mimicks the task of guide selection
-    \pause
-    \item Robust against outliers
-    \begin{figure}
-      \includegraphics[width=0.30\linewidth]{./Spearman2.png}
-    \end{figure}
-  \end{itemize}
-\end{frame}
 
 \begin{frame}{Performance evaluation}
   \begin{figure}
@@ -344,41 +284,5 @@
 
 \end{frame}
 
-% To build the web application, I first developed a data processing pipeline that gathers various relevant data sources, preprocesses them and stores them in an easy to access format in a database. From this data I also generated the BED files being using in the Sequence Browser.
-% \begin{frame}{Architecture}
-%   \begin{figure}
-%     \centering
-%     \includegraphics[width=0.65\linewidth]{architecture.png}
-%   \end{figure}
-% \end{frame}
-
-\begin{frame}{Conclusion and Takeaways}
-  % We started with this thought, we achieved this in the end
-  \begin{itemize}
-    \item Cas9 efficacy depends on complex biological coherences % which is why a more complex model boosts performance
-    \item DL improves guide efficacy prediction %
-    \item DL feasible with \textasciitilde5,000 rows
-  \end{itemize}
-
-\end{frame}
-
-\begin{frame}{Acknowledgements}
-  \begin{itemize}
-    \item Prof.\ Manfred Opper (supervisor at TU Berlin)
-    \item Dr.\ Andreas Steffen (supervisor at Bayer)
-    \item Dr.\ Djork-Arne Clevert (machine learning scientist at Bayer)
-    \item Robin Winter (PhD student at Bayer)
-    \item Bayer Pharma AG
-  \end{itemize}
-
-\end{frame}
-
-\begin{frame}{Future Work \& Discussion}
-  \begin{itemize}
-    \item Additional input features (chromatin accessibility)
-    \item Evaluate model on different datasets
-    \item Support additional species
-  \end{itemize}
-\end{frame}
 
 \end{document}
